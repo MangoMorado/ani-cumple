@@ -1,0 +1,4 @@
+.env
+config.env
+.log
+scraper.log
