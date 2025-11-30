@@ -27,12 +27,19 @@ Este proyecto proporciona una API REST que permite extraer automáticamente los 
 
 ## 🚀 Instalación
 
-1. **Clona o descarga el repositorio:**
+### Instalación desde GitHub
+
+1. **Clona el repositorio:**
+   ```bash
+   git clone https://github.com/MangoMorado/ani-cumple.git
+   ```
+
+2. **Entra a la carpeta del proyecto:**
    ```bash
    cd ani-cumple
    ```
 
-2. **Crea un entorno virtual (recomendado):**
+3. **Crea un entorno virtual (recomendado):**
    ```bash
    python -m venv venv
    
@@ -43,12 +50,12 @@ Este proyecto proporciona una API REST que permite extraer automáticamente los 
    source venv/bin/activate
    ```
 
-3. **Instala las dependencias:**
+4. **Instala las dependencias:**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Configura las variables de entorno:**
+5. **Configura las variables de entorno:**
    
    Copia el archivo de ejemplo y completa tus credenciales:
    ```bash
@@ -61,6 +68,11 @@ Este proyecto proporciona una API REST que permite extraer automáticamente los 
    HERMESS_PASSWORD=tu_contraseña
    HERMESS_LOGIN_URL=https://hermessapp.com/login
    HERMESS_BIRTHDAYS_URL=https://hermessapp.com/pacientescumple
+   ```
+
+6. **Ejecuta la aplicación:**
+   ```bash
+   python ani-cumple.py
    ```
 
 ## ⚙️ Configuración
@@ -261,6 +273,7 @@ ani-cumple/
 ├── config.env             # Variables de entorno (no incluir en git)
 ├── config.env.example     # Ejemplo de configuración
 ├── requirements.txt       # Dependencias del proyecto
+├── Dockerfile            # Configuración de Docker con todas las dependencias
 ├── README.md             # Documentación
 ├── scraper.log           # Logs de la aplicación (generado automáticamente)
 └── .gitignore           # Archivos a ignorar en git
@@ -278,11 +291,30 @@ ani-cumple/
 
 ### Docker/Portainer
 
-El proyecto es compatible con Docker y Portainer. Asegúrate de configurar:
+El proyecto incluye un `Dockerfile` que instala automáticamente todas las dependencias necesarias, incluyendo Google Chrome y todas las librerías del sistema requeridas.
 
-- Variables de entorno en el contenedor
-- Chrome/Chromium instalado en la imagen
-- Permisos adecuados para Selenium
+**Construir y ejecutar con Docker:**
+
+```bash
+# Construir la imagen
+docker build -t ani-cumple .
+
+# Ejecutar el contenedor
+docker run -d \
+  -p 5000:5000 \
+  -v $(pwd)/config.env:/app/config.env \
+  --name ani-cumple \
+  ani-cumple
+```
+
+**Para Easy Panel o Portainer:**
+
+1. Usa el `Dockerfile` incluido en el repositorio
+2. El Dockerfile clona automáticamente el repositorio desde GitHub
+3. Configura las variables de entorno en `config.env` o como variables de entorno del contenedor
+4. El contenedor expone el puerto 5000 por defecto
+
+**Nota:** El Dockerfile incluye todas las dependencias del sistema necesarias para Chrome/ChromeDriver, resolviendo el error 127 que puede ocurrir en entornos sin las librerías necesarias.
 
 ### Hosting Compartido
 
